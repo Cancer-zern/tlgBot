@@ -1,0 +1,12 @@
+C:\Users\afana\source\repos\tlgBotConsole\tlgBotConsole\bin\Debug\tlgBotConsole.exe.config
+C:\Users\afana\source\repos\tlgBotConsole\tlgBotConsole\bin\Debug\tlgBotConsole.exe
+C:\Users\afana\source\repos\tlgBotConsole\tlgBotConsole\bin\Debug\tlgBotConsole.pdb
+C:\Users\afana\source\repos\tlgBotConsole\tlgBotConsole\bin\Debug\Newtonsoft.Json.dll
+C:\Users\afana\source\repos\tlgBotConsole\tlgBotConsole\bin\Debug\Telegram.Bot.dll
+C:\Users\afana\source\repos\tlgBotConsole\tlgBotConsole\bin\Debug\Newtonsoft.Json.xml
+C:\Users\afana\source\repos\tlgBotConsole\tlgBotConsole\bin\Debug\Telegram.Bot.xml
+C:\Users\afana\source\repos\tlgBotConsole\tlgBotConsole\obj\Debug\tlgBotConsole.csprojAssemblyReference.cache
+C:\Users\afana\source\repos\tlgBotConsole\tlgBotConsole\obj\Debug\tlgBotConsole.csproj.CoreCompileInputs.cache
+C:\Users\afana\source\repos\tlgBotConsole\tlgBotConsole\obj\Debug\tlgBotConsole.csproj.CopyComplete
+C:\Users\afana\source\repos\tlgBotConsole\tlgBotConsole\obj\Debug\tlgBotConsole.exe
+C:\Users\afana\source\repos\tlgBotConsole\tlgBotConsole\obj\Debug\tlgBotConsole.pdb

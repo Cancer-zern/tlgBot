@@ -18,6 +18,7 @@ namespace tlgBotConsole
         private const string CAT_2 = "Домофон";
         private const string CAT_3 = "Сервер";
         private const string CAT_4 = "1С Предприятие";
+        private const string CANCEL = "Отмена";
 
         private string _token;
         Telegram.Bot.TelegramBotClient _client;
@@ -66,10 +67,17 @@ namespace tlgBotConsole
                 case Telegram.Bot.Types.Enums.UpdateType.Message:
                     var text = update.Message.Text;
 
+                    if (text == CANCEL)
+                    {
+                        _client.SendTextMessageAsync(update.Message.Chat.Id, "Выберите пункт в меню", replyMarkup: GetButtons());
+                        inst.Clear();
+                        break;
+                    }
+
                     if (inst.TicketType != null & inst.TicketCategory != null & inst.UserName == null)
                     {
                         inst.UserName = text;
-                        _client.SendTextMessageAsync(update.Message.Chat.Id, "Введите номер телефона (пример 89281234567)", replyMarkup: new ReplyKeyboardRemove());
+                        _client.SendTextMessageAsync(update.Message.Chat.Id, "Введите номер телефона (пример 89281234567)", replyMarkup: CancelButton());
                         break;
                     }
 
@@ -86,15 +94,14 @@ namespace tlgBotConsole
                             Console.WriteLine(inst.TicketCategory);
                             Console.WriteLine(inst.UserName);
                             Console.WriteLine(inst.PhoneNumber);
-                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"Спасибо, {inst.UserName}! Ваша заявка №{inst.TicketNumber} принята.", replyMarkup: new ReplyKeyboardRemove());
-                            _client.SendTextMessageAsync(update.Message.Chat.Id, "Перенаправляю Вас в Главное меню!", replyMarkup: GetButtons());
+                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"Спасибо, {inst.UserName}! Ваша заявка №{inst.TicketNumber} принята.");
+                            _client.SendTextMessageAsync(update.Message.Chat.Id, "Перенаправляю вас в Главное меню!", replyMarkup: GetButtons());
                             // run method for sendind Email
                             SendEmail(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
                             inst.Clear();
-
                         }
                         else
-                        _client.SendTextMessageAsync(update.Message.Chat.Id, "Введите номер телефона (пример 89281234567)", replyMarkup: new ReplyKeyboardRemove());
+                        _client.SendTextMessageAsync(update.Message.Chat.Id, "Введите номер телефона (пример 89281234567)", replyMarkup: CancelButton());
                         break;
 
                         //inst.PhoneNumber = text;
@@ -130,9 +137,13 @@ namespace tlgBotConsole
                         case CAT_3:
                         case CAT_4:
                             inst.TicketCategory = text;
-                            _client.SendTextMessageAsync(update.Message.Chat.Id, "Введите имя", replyMarkup: new ReplyKeyboardRemove());
+                            _client.SendTextMessageAsync(update.Message.Chat.Id, "Введите имя", replyMarkup: CancelButton());
                             break;
 
+                        //case CANCEL:
+                        //    _client.SendTextMessageAsync(update.Message.Chat.Id, "Выберите пункт в меню", replyMarkup: GetButtons());
+                        //    inst.Clear();
+                        //    break;
 
                         default:
                             _client.SendTextMessageAsync(update.Message.Chat.Id, "Выберите пункт в меню", replyMarkup: GetButtons());
@@ -164,7 +175,20 @@ namespace tlgBotConsole
                 Keyboard = new List<List<KeyboardButton>>
                     {
                     new List<KeyboardButton>{  new KeyboardButton { Text = CAT_1 }, new KeyboardButton {  Text = CAT_2 },  },
-                    new List<KeyboardButton>{  new KeyboardButton {  Text = CAT_3 }, new KeyboardButton {  Text = CAT_4 },  }
+                    new List<KeyboardButton>{  new KeyboardButton {  Text = CAT_3 }, new KeyboardButton {  Text = CAT_4 },  },
+                    new List<KeyboardButton>{ new KeyboardButton { Text = CANCEL} }
+                    },
+                ResizeKeyboard = true
+            };
+        }
+
+        private IReplyMarkup CancelButton()
+        {
+            return new ReplyKeyboardMarkup
+            {
+                Keyboard = new List<List<KeyboardButton>>
+                    {
+                    new List<KeyboardButton>{ new KeyboardButton { Text = CANCEL} }
                     },
                 ResizeKeyboard = true
             };

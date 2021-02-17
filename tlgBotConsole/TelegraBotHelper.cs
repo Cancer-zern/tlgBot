@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Mail;
 using System.Threading;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -59,22 +56,16 @@ namespace tlgBotConsole
             }
         }
 
-        //private static void Bot_OnCallbackQuery(object sender, CallbackQueryEventArgs e)
-        //{
-        //    _client.SendTextMessageAsync(update.Message.Chat.Id, "Введите имя", replyMarkup: new ReplyKeyboardRemove());
-        //}
 
-            EmailForm inst = new EmailForm();
+        EmailForm inst = new EmailForm();
+
         private void processUpdate(Telegram.Bot.Types.Update update)
         {
             switch (update.Type)
             {
                 case Telegram.Bot.Types.Enums.UpdateType.Message:
                     var text = update.Message.Text;
-                    //var username1 = _client.GetMeAsync().Result;
-                    //var chat_user_client = update.Message.Contact.UserId;
-                    //var c = update.Message.ReplyToMessage;
-                    //string imagePath = null;
+
                     if (inst.TicketType != null & inst.TicketCategory != null & inst.UserName == null)
                     {
                         inst.UserName = text;
@@ -85,7 +76,9 @@ namespace tlgBotConsole
                     if (inst.TicketType != null & inst.TicketCategory != null & inst.UserName != null)
                     {
                         inst.PhoneNumber = text;
+                        // create random no of ticket
                         inst.TicketNumber = RandomNo();
+                        // just for cw
                         Console.WriteLine(inst.TicketNumber);
                         Console.WriteLine(inst.TicketType);
                         Console.WriteLine(inst.TicketCategory);
@@ -93,6 +86,7 @@ namespace tlgBotConsole
                         Console.WriteLine(inst.PhoneNumber);
                         _client.SendTextMessageAsync(update.Message.Chat.Id, $"Спасибо, {inst.UserName}! Ваша заявка №{inst.TicketNumber} принята.", replyMarkup: new ReplyKeyboardRemove());
                         _client.SendTextMessageAsync(update.Message.Chat.Id, "Перенаправляю Вас в Главное меню!", replyMarkup: GetButtons());
+                        // run method for sendind Email
                         SendEmail(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
                         inst.Clear();
                         break;
@@ -127,84 +121,6 @@ namespace tlgBotConsole
             }
         }
 
-
-                    //        case Telegram.Bot.Types.Enums.UpdateType.CallbackQuery:
-                    //            switch (update.CallbackQuery.Data)
-                    //            {
-                    //                case "1":
-                    //                    var msg1 = _client.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, $"Заказ `{update.CallbackQuery.Data}` принят", replyMarkup: GetButtons()).Result;
-                    //                    break;
-                    //                case "2":
-                    //                    var msg2 = _client.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, $"Заказ `{update.CallbackQuery.Data}` принят", replyMarkup: GetButtons()).Result;
-                    //                    break;
-                    //                case "3":
-                    //                    var msg3 = _client.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, $"Заказ `{update.CallbackQuery.Data}` принят", replyMarkup: GetButtons()).Result;
-                    //                    break;
-                    //                case "4":
-                    //                    var msg4 = _client.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, $"Заказ `{update.CallbackQuery.Data}` принят", replyMarkup: GetButtons()).Result;
-                    //                    break;
-                    //            }
-                    //            break;
-                    //        default:
-                    //            Console.WriteLine(update.Type + " Not ipmlemented!");
-                    //            break;
-                    //    }
-                    //}
-
-
-
-                    
-        //private void processUpdate(Telegram.Bot.Types.Update update)
-        //{
-            
-        //    if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
-        //    {
-        //        var text = update.Message.Text;
-        //        //inst.TicketType = text;
-        //        //inst.TicketCategory = update.Message.Text;
-        //        if (text != "Установка")
-        //        {
-        //            _client.SendTextMessageAsync(update.Message.Chat.Id, "Choose section into menu", replyMarkup: GetButtons());
-        //        }
-        //        //else
-        //        //{
-        //        //    inst.TicketType = text;
-        //        //}
-
-        //        //Console.WriteLine(inst.TicketType);
-        //        if (text == "Установка")
-        //        {
-        //            //Console.WriteLine(inst.TicketType);
-        //            inst.TicketType = text;
-        //            _client.SendTextMessageAsync(update.Message.Chat.Id, "Choose the category", replyMarkup: GetCategory());
-        //        }
-
-        //        if (text == "Камеры")
-        //        {
-        //            inst.TicketCategory = text;
-        //            _client.SendTextMessageAsync(update.Message.Chat.Id, "Введите имя", replyMarkup: new ReplyKeyboardRemove());
-        //            //_client.SendTextMessageAsync(callback.Message.Chat.Id);
-        //        }
-
-        //        if (true)
-        //        {
-
-        //        }
-        //        Console.WriteLine(inst.TicketType + " last-1");
-        //        Console.WriteLine(inst.TicketCategory + " last-2");
-
-        //    }
-        
-        //}
-
-
-
-
-
-        private IReplyMarkup GetInlineButton(int id)
-        {
-            return new InlineKeyboardMarkup(new InlineKeyboardButton { Text = "Заказать", CallbackData = id.ToString() });
-        }
 
         private IReplyMarkup GetButtons()
         {

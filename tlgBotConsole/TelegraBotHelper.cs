@@ -75,21 +75,43 @@ namespace tlgBotConsole
 
                     if (inst.TicketType != null & inst.TicketCategory != null & inst.UserName != null)
                     {
-                        inst.PhoneNumber = text;
-                        // create random no of ticket
-                        inst.TicketNumber = RandomNo();
-                        // just for cw
-                        Console.WriteLine(inst.TicketNumber);
-                        Console.WriteLine(inst.TicketType);
-                        Console.WriteLine(inst.TicketCategory);
-                        Console.WriteLine(inst.UserName);
-                        Console.WriteLine(inst.PhoneNumber);
-                        _client.SendTextMessageAsync(update.Message.Chat.Id, $"Спасибо, {inst.UserName}! Ваша заявка №{inst.TicketNumber} принята.", replyMarkup: new ReplyKeyboardRemove());
-                        _client.SendTextMessageAsync(update.Message.Chat.Id, "Перенаправляю Вас в Главное меню!", replyMarkup: GetButtons());
-                        // run method for sendind Email
-                        SendEmail(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
-                        inst.Clear();
+                        if (text.All(char.IsDigit) & text.Length == 11)
+                        {
+                            inst.PhoneNumber = text;
+                            // create random no of ticket
+                            inst.TicketNumber = RandomNo();
+                            // just for cw
+                            Console.WriteLine(inst.TicketNumber);
+                            Console.WriteLine(inst.TicketType);
+                            Console.WriteLine(inst.TicketCategory);
+                            Console.WriteLine(inst.UserName);
+                            Console.WriteLine(inst.PhoneNumber);
+                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"Спасибо, {inst.UserName}! Ваша заявка №{inst.TicketNumber} принята.", replyMarkup: new ReplyKeyboardRemove());
+                            _client.SendTextMessageAsync(update.Message.Chat.Id, "Перенаправляю Вас в Главное меню!", replyMarkup: GetButtons());
+                            // run method for sendind Email
+                            SendEmail(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
+                            inst.Clear();
+
+                        }
+                        else
+                        _client.SendTextMessageAsync(update.Message.Chat.Id, "Введите номер телефона (пример 89281234567)", replyMarkup: new ReplyKeyboardRemove());
                         break;
+
+                        //inst.PhoneNumber = text;
+                        //// create random no of ticket
+                        //inst.TicketNumber = RandomNo();
+                        //// just for cw
+                        //Console.WriteLine(inst.TicketNumber);
+                        //Console.WriteLine(inst.TicketType);
+                        //Console.WriteLine(inst.TicketCategory);
+                        //Console.WriteLine(inst.UserName);
+                        //Console.WriteLine(inst.PhoneNumber);
+                        //_client.SendTextMessageAsync(update.Message.Chat.Id, $"Спасибо, {inst.UserName}! Ваша заявка №{inst.TicketNumber} принята.", replyMarkup: new ReplyKeyboardRemove());
+                        //_client.SendTextMessageAsync(update.Message.Chat.Id, "Перенаправляю Вас в Главное меню!", replyMarkup: GetButtons());
+                        //// run method for sendind Email
+                        //SendEmail(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
+                        //inst.Clear();
+                        //break;
                     }
 
                     switch (text)

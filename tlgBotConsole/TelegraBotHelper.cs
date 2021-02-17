@@ -67,6 +67,7 @@ namespace tlgBotConsole
                 case Telegram.Bot.Types.Enums.UpdateType.Message:
                     var text = update.Message.Text;
 
+                    // TODO: need to code refactoring in the feature and build this app in Asp.Net
                     if (text == CANCEL)
                     {
                         _client.SendTextMessageAsync(update.Message.Chat.Id, "Выберите пункт в меню", replyMarkup: GetButtons());

@@ -106,7 +106,7 @@ namespace tlgBotConsole
                             // run method for sendind tlgChannel
                             SendTlgChannel(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
                             // run method for sendind Email
-                            SendAsync(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
+                            SendEmail(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
                             inst.Clear();
                         }
                         else
@@ -215,12 +215,8 @@ namespace tlgBotConsole
             string response = sb.ToString();
         }
 
-        //private void SendAsync(string TicketType, string TicketCategory, int TicketNumber, string UserName, string PhoneNumber)
-        //{
-            
-        //}
-
-        private void SendAsync(string TicketType, string TicketCategory, int TicketNumber, string UserName, string PhoneNumber)
+  
+        private void SendEmail(string TicketType, string TicketCategory, int TicketNumber, string UserName, string PhoneNumber)
         {
             try
             {
@@ -236,6 +232,6 @@ namespace tlgBotConsole
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
             
-    }
+        }
     }
 }

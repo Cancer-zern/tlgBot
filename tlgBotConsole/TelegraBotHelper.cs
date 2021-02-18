@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace tlgBotConsole
@@ -16,7 +20,7 @@ namespace tlgBotConsole
         private const string TEXT_4 = "Что-то еще";
         private const string CAT_1 = "Камеры";
         private const string CAT_2 = "Домофон";
-        private const string CAT_3 = "Сервер";
+        private const string CAT_3 = "Сервер(ы)";
         private const string CAT_4 = "1С Предприятие";
         private const string CANCEL = "Отмена";
 
@@ -52,7 +56,8 @@ namespace tlgBotConsole
                     }
                     catch (Exception ex) { Console.WriteLine(ex.Message); }
 
-                    Thread.Sleep(1000);
+                    //Thread.Sleep(1000);
+                    Task.Delay(1000);
                 }
             }
         }
@@ -95,31 +100,18 @@ namespace tlgBotConsole
                             Console.WriteLine(inst.TicketCategory);
                             Console.WriteLine(inst.UserName);
                             Console.WriteLine(inst.PhoneNumber);
+                            Console.WriteLine("------------");
                             _client.SendTextMessageAsync(update.Message.Chat.Id, $"Спасибо, {inst.UserName}! Ваша заявка №{inst.TicketNumber} принята.");
                             _client.SendTextMessageAsync(update.Message.Chat.Id, "Перенаправляю вас в Главное меню!", replyMarkup: GetButtons());
+                            // run method for sendind tlgChannel
+                            SendTlgChannel(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
                             // run method for sendind Email
-                            SendEmail(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
+                            SendAsync(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
                             inst.Clear();
                         }
                         else
                         _client.SendTextMessageAsync(update.Message.Chat.Id, "Введите номер телефона (пример 89281234567)", replyMarkup: CancelButton());
                         break;
-
-                        //inst.PhoneNumber = text;
-                        //// create random no of ticket
-                        //inst.TicketNumber = RandomNo();
-                        //// just for cw
-                        //Console.WriteLine(inst.TicketNumber);
-                        //Console.WriteLine(inst.TicketType);
-                        //Console.WriteLine(inst.TicketCategory);
-                        //Console.WriteLine(inst.UserName);
-                        //Console.WriteLine(inst.PhoneNumber);
-                        //_client.SendTextMessageAsync(update.Message.Chat.Id, $"Спасибо, {inst.UserName}! Ваша заявка №{inst.TicketNumber} принята.", replyMarkup: new ReplyKeyboardRemove());
-                        //_client.SendTextMessageAsync(update.Message.Chat.Id, "Перенаправляю Вас в Главное меню!", replyMarkup: GetButtons());
-                        //// run method for sendind Email
-                        //SendEmail(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
-                        //inst.Clear();
-                        //break;
                     }
 
                     switch (text)
@@ -201,17 +193,49 @@ namespace tlgBotConsole
             int myRandomNo = rnd.Next(1000, 99999);
             return myRandomNo;
         }
-        private void SendEmail(string TicketType, string TicketCategory, int TicketNumber, string UserName, string PhoneNumber)
+
+        private void SendTlgChannel(string TicketType, string TicketCategory, int TicketNumber, string UserName, string PhoneNumber)
         {
-            var smtpClient = new SmtpClient("10.1.0.218")
+            string urlString = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}";
+            string apiToken = "1651450187:AAGzvWpcycfwKMZScYk6Og3tizd-zvgFjWc";
+            string chatId = "@qvatro_tickets";
+            string text = $"Заявка: №{TicketNumber}\nТип заявки: {TicketType}\nКатегория: {TicketCategory}\nИмя пользователя: {UserName}\nНомер телефона: {PhoneNumber}";
+            urlString = String.Format(urlString, apiToken, chatId, text);
+            WebRequest request = WebRequest.Create(urlString);
+            Stream rs = request.GetResponse().GetResponseStream();
+            StreamReader reader = new StreamReader(rs);
+            string line = "";
+            StringBuilder sb = new StringBuilder();
+            while (line != null)
             {
-                Port = 25,
-                //Credentials = new NetworkCredential("email", "password"),
-                EnableSsl = false,
-            };
-
-            smtpClient.Send("noreply@ntpayments.com", "afanasev@ntpayments.com", $"Заявка №{TicketNumber}", $"Заявка №: {TicketNumber}\nТип заявки: {TicketType}\nКатегория: {TicketCategory}\nИмя пользователя: {UserName}\nНомер телефона: {PhoneNumber}");
-
+                line = reader.ReadLine();
+                if (line != null)
+                    sb.Append(line);
+            }
+            string response = sb.ToString();
         }
+
+        //private void SendAsync(string TicketType, string TicketCategory, int TicketNumber, string UserName, string PhoneNumber)
+        //{
+            
+        //}
+
+        private void SendAsync(string TicketType, string TicketCategory, int TicketNumber, string UserName, string PhoneNumber)
+        {
+            try
+            {
+                var smtpClient = new SmtpClient("10.1.0.218")
+                {
+                    Port = 25,
+                    //Credentials = new NetworkCredential("email", "password"),
+                    EnableSsl = false,
+                };
+
+                smtpClient.Send("noreply@ntpayments.com", "afanasev@ntpayments.com", $"Заявка №{TicketNumber}", $"Заявка №: {TicketNumber}\nТип заявки: {TicketType}\nКатегория: {TicketCategory}\nИмя пользователя: {UserName}\nНомер телефона: {PhoneNumber}");
+                Task.Delay(10000).Wait();
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            
+    }
     }
 }

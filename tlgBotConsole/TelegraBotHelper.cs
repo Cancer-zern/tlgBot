@@ -228,7 +228,7 @@ namespace tlgBotConsole
                     EnableSsl = false,
                 };
 
-                smtpClient.Send("noreply@xxxxxxxxxx.com", "xxxxxx@gmail.com", $"Заявка №{TicketNumber}", $"Заявка: № {TicketNumber}\nТип заявки: {TicketType}\nКатегория: {TicketCategory}\nИмя пользователя: {UserName}\nНомер телефона: {PhoneNumber}");
+                smtpClient.Send("noreply@xxxxx.com", "username@xxxxx.com", $"Заявка №{TicketNumber}", $"Заявка: № {TicketNumber}\nТип заявки: {TicketType}\nКатегория: {TicketCategory}\nИмя пользователя: {UserName}\nНомер телефона: {PhoneNumber}");
                 Task.Delay(10000).Wait();
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }

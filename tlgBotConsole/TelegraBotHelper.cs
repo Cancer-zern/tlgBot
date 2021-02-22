@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -15,10 +11,10 @@ namespace tlgBotConsole
     internal class TelegraBotHelper
     {
 
-        private const string TEXT_1 = "Установка";
-        private const string TEXT_2 = "Проблема";
-        private const string TEXT_3 = "Другое";
-        private const string TEXT_4 = "Что-то еще";
+        private const string MAIN_1 = "Установка";
+        private const string MAIN_2 = "Проблема";
+        private const string MAIN_3 = "Другое";
+        private const string MAIN_4 = "Что-то еще";
         private const string CAT_1 = "Камеры";
         private const string CAT_2 = "Домофон";
         private const string CAT_3 = "Сервер(ы)";
@@ -119,10 +115,10 @@ namespace tlgBotConsole
                     switch (text)
                     {
 
-                        case TEXT_1:
-                        case TEXT_2:
-                        case TEXT_3:
-                        case TEXT_4:
+                        case MAIN_1:
+                        case MAIN_2:
+                        case MAIN_3:
+                        case MAIN_4:
                             inst.TicketType = text;
                             _client.SendTextMessageAsync(update.Message.Chat.Id, "Выберите категорию в меню", replyMarkup: GetCategory());
                             break;
@@ -134,11 +130,6 @@ namespace tlgBotConsole
                             inst.TicketCategory = text;
                             _client.SendTextMessageAsync(update.Message.Chat.Id, "Введите имя", replyMarkup: CancelButton());
                             break;
-
-                        //case CANCEL:
-                        //    _client.SendTextMessageAsync(update.Message.Chat.Id, "Выберите пункт в меню", replyMarkup: GetButtons());
-                        //    inst.Clear();
-                        //    break;
 
                         default:
                             _client.SendTextMessageAsync(update.Message.Chat.Id, "Выберите пункт в меню", replyMarkup: GetButtons());
@@ -156,8 +147,8 @@ namespace tlgBotConsole
             {
                 Keyboard = new List<List<KeyboardButton>>
                     {
-                    new List<KeyboardButton>{  new KeyboardButton { Text = TEXT_1 }, new KeyboardButton {  Text = TEXT_2},  },
-                    new List<KeyboardButton>{  new KeyboardButton {  Text = TEXT_3}, new KeyboardButton {  Text = TEXT_4},  }
+                    new List<KeyboardButton>{  new KeyboardButton { Text = MAIN_1 }, new KeyboardButton {  Text = MAIN_2},  },
+                    new List<KeyboardButton>{  new KeyboardButton {  Text = MAIN_3}, new KeyboardButton {  Text = MAIN_4},  }
                     },
                 ResizeKeyboard = true
             };
@@ -218,8 +209,8 @@ namespace tlgBotConsole
 
             var token_tlgchannel = "1651450187:AAGzvWpcycfwKMZScYk6Og3tizd-zvgFjWc";
             string text = $"Заявка: №{TicketNumber}\nТип заявки: {TicketType}\nКатегория: {TicketCategory}\nИмя пользователя: {UserName}\nНомер телефона: {PhoneNumber}";
-            var bot = new TelegramBotClient(token_tlgchannel);
-            var s = await bot.SendTextMessageAsync("@qvatro_tickets", text);
+            var tlgbot = new TelegramBotClient(token_tlgchannel);
+            var s = await tlgbot.SendTextMessageAsync("@qvatro_tickets", text);
 
         }
 

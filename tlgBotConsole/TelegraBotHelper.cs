@@ -7,6 +7,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace tlgBotConsole
@@ -107,7 +108,7 @@ namespace tlgBotConsole
                             // run method for sendind tlgChannel
                             SendTlgChannel(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
                             // run method for sendind Email
-                            SendEmail(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
+                            //SendEmail(inst.TicketType, inst.TicketCategory, inst.TicketNumber, inst.UserName, inst.PhoneNumber);
                             inst.Clear();
                         }
                         else
@@ -195,28 +196,34 @@ namespace tlgBotConsole
             return myRandomNo;
         }
 
-        private void SendTlgChannel(string TicketType, string TicketCategory, int TicketNumber, string UserName, string PhoneNumber)
+        private async void SendTlgChannel(string TicketType, string TicketCategory, int TicketNumber, string UserName, string PhoneNumber)
         {
-            string urlString = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}";
-            string apiToken = "1651450187:AAGzvWpcycfwKMZScYk6Og3tizd-zvgFjWc";
-            string chatId = "@qvatro_tickets";
+            //string urlString = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}";
+            //string apiToken = "1651450187:AAGzvWpcycfwKMZScYk6Og3tizd-zvgFjWc";
+            //string chatId = "@qvatro_tickets";
+            //string text = $"Заявка: №{TicketNumber}\nТип заявки: {TicketType}\nКатегория: {TicketCategory}\nИмя пользователя: {UserName}\nНомер телефона: {PhoneNumber}";
+            //urlString = String.Format(urlString, apiToken, chatId, text);
+            //WebRequest request = WebRequest.Create(urlString);
+            //Stream rs = request.GetResponse().GetResponseStream();
+            //StreamReader reader = new StreamReader(rs);
+            //string line = "";
+            //StringBuilder sb = new StringBuilder();
+            //while (line != null)
+            //{
+            //    line = reader.ReadLine();
+            //    if (line != null)
+            //        sb.Append(line);
+            //}
+            //string response = sb.ToString();
+
+            var token_tlgchannel = "1651450187:AAGzvWpcycfwKMZScYk6Og3tizd-zvgFjWc";
             string text = $"Заявка: №{TicketNumber}\nТип заявки: {TicketType}\nКатегория: {TicketCategory}\nИмя пользователя: {UserName}\nНомер телефона: {PhoneNumber}";
-            urlString = String.Format(urlString, apiToken, chatId, text);
-            WebRequest request = WebRequest.Create(urlString);
-            Stream rs = request.GetResponse().GetResponseStream();
-            StreamReader reader = new StreamReader(rs);
-            string line = "";
-            StringBuilder sb = new StringBuilder();
-            while (line != null)
-            {
-                line = reader.ReadLine();
-                if (line != null)
-                    sb.Append(line);
-            }
-            string response = sb.ToString();
+            var bot = new TelegramBotClient(token_tlgchannel);
+            var s = await bot.SendTextMessageAsync("@qvatro_tickets", text);
+
         }
 
-  
+
         private void SendEmail(string TicketType, string TicketCategory, int TicketNumber, string UserName, string PhoneNumber)
         {
             try

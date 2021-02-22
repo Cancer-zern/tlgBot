@@ -22,3 +22,15 @@ C:\Users\afana\Documents\Repo\tlgBot\tlgBotConsole\obj\Debug\tlgBotConsole.cspro
 C:\Users\afana\Documents\Repo\tlgBot\tlgBotConsole\obj\Debug\tlgBotConsole.csproj.CopyComplete
 C:\Users\afana\Documents\Repo\tlgBot\tlgBotConsole\obj\Debug\tlgBotConsole.exe
 C:\Users\afana\Documents\Repo\tlgBot\tlgBotConsole\obj\Debug\tlgBotConsole.pdb
+C:\Users\afanasev\Documents\Repos\tlgBot\tlgBotConsole\bin\Debug\tlgBotConsole.exe.config
+C:\Users\afanasev\Documents\Repos\tlgBot\tlgBotConsole\bin\Debug\tlgBotConsole.exe
+C:\Users\afanasev\Documents\Repos\tlgBot\tlgBotConsole\bin\Debug\tlgBotConsole.pdb
+C:\Users\afanasev\Documents\Repos\tlgBot\tlgBotConsole\bin\Debug\Newtonsoft.Json.dll
+C:\Users\afanasev\Documents\Repos\tlgBot\tlgBotConsole\bin\Debug\Telegram.Bot.dll
+C:\Users\afanasev\Documents\Repos\tlgBot\tlgBotConsole\bin\Debug\Newtonsoft.Json.xml
+C:\Users\afanasev\Documents\Repos\tlgBot\tlgBotConsole\bin\Debug\Telegram.Bot.xml
+C:\Users\afanasev\Documents\Repos\tlgBot\tlgBotConsole\obj\Debug\tlgBotConsole.csprojAssemblyReference.cache
+C:\Users\afanasev\Documents\Repos\tlgBot\tlgBotConsole\obj\Debug\tlgBotConsole.csproj.CoreCompileInputs.cache
+C:\Users\afanasev\Documents\Repos\tlgBot\tlgBotConsole\obj\Debug\tlgBotConsole.csproj.CopyComplete
+C:\Users\afanasev\Documents\Repos\tlgBot\tlgBotConsole\obj\Debug\tlgBotConsole.exe
+C:\Users\afanasev\Documents\Repos\tlgBot\tlgBotConsole\obj\Debug\tlgBotConsole.pdb

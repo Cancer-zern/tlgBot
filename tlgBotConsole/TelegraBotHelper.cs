@@ -80,16 +80,17 @@ namespace tlgBotConsole
                         break;
                     }
 
-                    if (inst.TicketType != null & inst.TicketCategory != null & inst.UserName == null)
+                    if (!string.IsNullOrEmpty(inst.TicketType) & !string.IsNullOrEmpty(inst.TicketCategory) & string.IsNullOrEmpty(inst.UserName))
                     {
                         inst.UserName = text;
-                        _client.SendTextMessageAsync(update.Message.Chat.Id, "Введите номер телефона (пример 89281234567)", replyMarkup: CancelButton());
+                        _client.SendTextMessageAsync(update.Message.Chat.Id, "Введите номер телефона \nПример: 89281234567", replyMarkup: CancelButton());
                         break;
                     }
 
-                    if (inst.TicketType != null & inst.TicketCategory != null & inst.UserName != null)
+                    if (!string.IsNullOrEmpty(inst.TicketType) & !string.IsNullOrEmpty(inst.TicketCategory) & !string.IsNullOrEmpty(inst.UserName))
                     {
-                        if (text.All(char.IsDigit) & text.Length == 11)
+                        //if (text.All(char.IsDigit) & text.Substring(0, 1) == "8" || text.Substring(0, 1) == "7" & text.Length == 11)
+                        if (text.All(char.IsDigit) & text.Substring(0, 1) == "8" & text.Length == 11)
                         {
                             inst.PhoneNumber = text;
                             // create random no of ticket
@@ -110,7 +111,7 @@ namespace tlgBotConsole
                             inst.Clear();
                         }
                         else
-                        _client.SendTextMessageAsync(update.Message.Chat.Id, "Введите номер телефона (пример 89281234567)", replyMarkup: CancelButton());
+                        _client.SendTextMessageAsync(update.Message.Chat.Id, "Некорректный номер, пожалуйста, введите правильный номер телефона \nПример: 89281234567", replyMarkup: CancelButton());
                         break;
                     }
 
@@ -227,7 +228,7 @@ namespace tlgBotConsole
                     EnableSsl = false,
                 };
 
-                smtpClient.Send("noreply@ntpayments.com", "afanasev@ntpayments.com", $"Заявка №{TicketNumber}", $"Заявка №: {TicketNumber}\nТип заявки: {TicketType}\nКатегория: {TicketCategory}\nИмя пользователя: {UserName}\nНомер телефона: {PhoneNumber}");
+                smtpClient.Send("noreply@xxxxxxxxxx.com", "xxxxxx@gmail.com", $"Заявка №{TicketNumber}", $"Заявка: № {TicketNumber}\nТип заявки: {TicketType}\nКатегория: {TicketCategory}\nИмя пользователя: {UserName}\nНомер телефона: {PhoneNumber}");
                 Task.Delay(10000).Wait();
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }

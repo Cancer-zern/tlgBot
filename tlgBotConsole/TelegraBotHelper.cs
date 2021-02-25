@@ -74,7 +74,7 @@ namespace tlgBotConsole
                     if (tlgusername != inst.TlgUserName)
                     {
                         inst.TlgUserName = tlgusername;
-                        _client.SendTextMessageAsync(update.Message.Chat.Id, "Select Main menu", replyMarkup: GetButtons());
+                        _client.SendTextMessageAsync(update.Message.Chat.Id, "Выберите пункт в меню", replyMarkup: GetButtons());
                     }
                     else
                     {
